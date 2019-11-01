@@ -5,7 +5,7 @@ buildscript {
         hibernateVersion = "5.2.17.Final"
         slf4jVersion = "1.7.25"
         junitVersion = "4.12"
-        mysqlVersion = "5.1.40"
+        mysqlVersion = "8.0.18"
     }
 
     repositories {
@@ -14,7 +14,23 @@ buildscript {
 
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
+        classpath "mysql:mysql-connector-java:$mysqlVersion"
     }
+}
+
+plugins {
+    id "org.flywaydb.flyway" version "6.0.8"
+}
+
+flyway {
+    url = "jdbc:mysql://localhost:3306/albums?useSSL=false&characterEncoding=UTF-8&serverTimezone=JST"
+    user = "root"
+    password = ""
+    outOfOrder = false
+    locations = [
+//            "filesystem:./databases/movie-database/src/main/resource/db/migration",
+            "filesystem:./databases/album-database/src/main/resource/db/migration"
+            ]
 }
 
 task dependenciesGraphDot {
